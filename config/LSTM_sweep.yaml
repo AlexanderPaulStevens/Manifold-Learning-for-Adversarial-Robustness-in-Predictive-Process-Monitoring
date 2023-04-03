@@ -1,0 +1,23 @@
+method: bayes   #Available options : [grid, random, bayes]
+entity: adversarial_robustness 
+project: bayes_VAE
+metric:
+    name: validation_loss
+    goal: minimize
+
+parameters: 
+    #Describe parameters here
+    embed_size:
+        values: [64,128,256]
+    optimizer:
+        values: ['RMSprop', 'Nadam']
+    batch_size:
+        values: [32,64,128]
+    hidden_size:
+        values: [64,128,256,1024]
+    learning_rate:
+        values: [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1]
+#no regularizers, cause too many variables then
+early_terminate:
+    type: hyperband
+    min_iter: 1
