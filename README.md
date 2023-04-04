@@ -33,73 +33,17 @@ We would like to thank the authors for the high quality code that allowed to fas
 #### PDF
 The folder PDF contains the high-resolution figures (PDF format) that have been used in the paper
 
-### To define the optimal models (and save them locally)
-*Logistic Regression (LR), Logit Leaf Model (LLM), Generalized Logistic Rule Regression (GLRM), Random Forest (RF) and XGBoost (XGB)*
-- Experiment_ML_Attack.py
-*Long short-term memory neural networks (LSTM) and Convolutional Neural Network( CNN)*
-- Experiment_DL_Attack (GC).py
+### Experiment 
+To define the optimal models (and save them locally)
+*Logistic Regression (LR) and Random Forest (RF)*
+- experiment_ML.py
+*Variational Autoencoder (VAE)*
+- experiment_VAE.py
 
-### Training
-
-The model is trained on 30 epochs using Adam as an optimizer with a learning rate 0.001. Here are the results from training the LSTM-VAE model:
-
-- **KL Loss**
-
-  <img src="./media/kl.jpg" align="center" height="300" width="500" >
-
-- **Reconstruction loss**
-
-  <img src="./media/reco.jpg" align="center" height="300" width="500" >
-
-- **KL loss vs Reconstruction loss**
-
-  <img src="./media/kl_reco.jpg" align="center" height="300" width="500" >
-
-- **ELBO loss**
-
-  <img src="./media/elbo.jpg" align="center" height="300" width="500" >
-
-
-
-### Inference
-
-#### 1. Sample Generation
-
-Here are generated samples from the model. We randomly sampled two latent codes z from standard Gaussian distributions, and specify "like" as the start of the sentence (sos), then we feed them to the decoder. The following are the generated sentences:
-
-- **like other countries such as alex powers a former wang marketer** 
-
-- **like design and artists have been <unk> by how many <unk>**
-
-#### 2. Interpolation
-
-The "President" word has been used as the start of the sentences. We randomly generated two sentences and interpolated between them.
-
-- Sentence 1: **President bush veto power changes meant to be a great number**
-- Sentence 2: **President bush veto power opposed to the president of the house**
-
-```markdown
- *bush veto power opposed to the president of the house
- bush veto power opposed to the president of the house.
- bush veto power opposed to the president of the house.
- bush veto power opposed to the president of the house.
- bush veto power opposed to the president of the house.
- bush veto power opposed to the president of the house.
- bush veto power opposed to the president of the house.
- bush veto power opposed to the president of the house.
- bush veto power opposed to the president ' s council.
- bush veto power opposed to the president ' s council.
- bush veto power opposed to the president ' s council.
- bush veto power opposed to the president ' s council.
- bush veto power opposed to the president ' s council.
- bush veto power that kind of <unk> of natural gas.
- bush veto power changes to keep the <unk> and that.
- bush veto power changes to keep the <unk> and that.
- bush veto power changes that is in a telephone to.
- bush veto power changes that is in a telephone to.
- bush veto power changes meant to be a great number.
- *bush veto power changes meant to be a great number
-```
+### Adversarial Example Generation and Training
+The adversarial example generation and adversarial training algorithm
+*Logistic Regression (LR) and Random Forest (RF)*
+- adversarial_experiment.py
 
 ### Acknowledgement
 
