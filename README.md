@@ -33,17 +33,11 @@ We would like to thank the authors for the high quality code that allowed to fas
 #### PDF
 The folder PDF contains the high-resolution figures (PDF format) that have been used in the paper
 
-### Run the code
-
-- To train the model, run: `python main.py`
-
-- To train the model with specific arguments, run: `python main.py --batch_size=64`. The following command-line arguments are available:
-  - Batch size: `--batch_size`
-  - bptt: `--bptt`
-  - Learning rate: `--lr`
-  - Embedding size: `--embed_size`
-  - Hidden size: `--hidden_size`
-  - Latent size: `--latent_size`
+### To define the optimal models (and save them locally)
+*Logistic Regression (LR), Logit Leaf Model (LLM), Generalized Logistic Rule Regression (GLRM), Random Forest (RF) and XGBoost (XGB)*
+- Experiment_ML_Attack.py
+*Long short-term memory neural networks (LSTM) and Convolutional Neural Network( CNN)*
+- Experiment_DL_Attack (GC).py
 
 ### Training
 
