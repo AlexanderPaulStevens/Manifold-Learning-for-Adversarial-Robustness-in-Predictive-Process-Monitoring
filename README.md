@@ -41,12 +41,17 @@ To define the optimal models (and save them locally)
 - experiment_ML.py
 
 *Variational Autoencoder (VAE)*
-- experiment_VAE.py
+- experiment_VAE.py!
+
+[VAE](https://user-images.githubusercontent.com/75080516/229736606-e50a7ff7-7fdf-4535-ac97-4b02732a3c88.PNG)
 
 ### AdversarialExperiment
 The adversarial example generation and adversarial training algorithm
-- *Logistic Regression (LR) and Random Forest (RF)*
+
+*Logistic Regression (LR) and Random Forest (RF)*
 - adversarial_experiment.py
+
+![AdversarialExamples](https://user-images.githubusercontent.com/75080516/229736410-27d8109d-796a-4014-9f25-2e4f05a4fe6e.PNG)
 
 ### Acknowledgements
 
