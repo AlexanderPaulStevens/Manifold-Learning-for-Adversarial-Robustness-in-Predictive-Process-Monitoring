@@ -1,15 +1,18 @@
+# The code and architecture in this file stems from: https://github.com/Khamies/LSTM-Variational-AutoEncoder
+# I have only added this file to my own GitHub, so that interested people can easily reproduce this.
+# I thank the authors from their valuable work
 global_setting = {
     "train_ratio": 0.8,
     "train_val_ratio": 0.8,
     "seed": 42,
-    "params_dir_VAE": r'C:/Users/u0138175/Google Drive/CurrentWork/Manifold/AdversarialRobustnessGeneralization/params_dir_VAE',
-    "params_dir": r'C:/Users/u0138175/Google Drive/CurrentWork/Manifold/AdversarialRobustnessGeneralization/params_dir',
-    "params_dir_DL": r'C:/Users/u0138175/Google Drive/CurrentWork/Manifold/AdversarialRobustnessGeneralization/params_dir_DL',
-    "results_dir": r'C:/Users/u0138175/Google Drive/CurrentWork/Manifold/AdversarialRobustnessGeneralization/results_dir',
-    "manifolds": r'C:/Users/u0138175/Google Drive/CurrentWork/Manifold/AdversarialRobustnessGeneralization/manifolds',
-    "best_manifolds": r'C:/Users/u0138175/Google Drive/CurrentWork/Manifold/AdversarialRobustnessGeneralization/best_manifolds',
-    "best_LSTMs": r'C:/Users/u0138175/Google Drive/CurrentWork/Manifold/AdversarialRobustnessGeneralization/best_LSTMs',
-    "models": r'C:/Users/u0138175/Google Drive/CurrentWork/Manifold/AdversarialRobustnessGeneralization/models',
+    "params_dir_VAE": 'AdversarialRobustnessGeneralization/params_dir_VAE',
+    "params_dir": 'AdversarialRobustnessGeneralization/params_dir',
+    "params_dir_DL": 'AdversarialRobustnessGeneralization/params_dir_DL',
+    "results_dir": 'AdversarialRobustnessGeneralization/results_dir',
+    "manifolds": 'AdversarialRobustnessGeneralization/manifolds',
+    "best_manifolds": 'AdversarialRobustnessGeneralization/best_manifolds',
+    "best_LSTMs": 'AdversarialRobustnessGeneralization/best_LSTMs',
+    "models": 'AdversarialRobustnessGeneralization/models',
     "n_splits": 3,
     "max_evals": 15,
 }
