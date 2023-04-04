@@ -2,7 +2,7 @@
 
 Complementary code to reproduce the work of *Manifold Learning to Improve Robustness and Generalization in Process Outcome Prediction*
 
-[AdversarialTraining.pdf](https://github.com/AlexanderPaulStevens/ManifoldLearningPPM/files/11146171/AdversarialTraining.pdf)
+![On-manifold training](https://user-images.githubusercontent.com/75080516/229730705-bc4970fa-1f52-4fc5-ba20-51e5a6e89b6a.PNG)
 
 This preview file contains the adversarial training architecture, and how regular adversarial training deviates from on-manifold adversarial training. More information is given below.
 
