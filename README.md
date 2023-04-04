@@ -12,9 +12,6 @@ This preview file contains the adversarial training architecture, and how regula
 - **[Setup](#Setup)**
 - [**Run the code**](#Run-the-code)
 - **[Training](#Training)**
-- **[Inference](#Inference)**
-- **[Play with the model](#Play-with-the-model)**
-- **[Connect with me](#Connect-with-me)**
 - **[License](#License)** 
 
 
