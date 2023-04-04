@@ -51,7 +51,6 @@ The adversarial example generation and adversarial training algorithm
 *Logistic Regression (LR) and Random Forest (RF)*
 - adversarial_experiment.py
 
-![AdversarialExamples](https://user-images.githubusercontent.com/75080516/229736410-27d8109d-796a-4014-9f25-2e4f05a4fe6e.PNG)
 ![AdversarialExamples](https://user-images.githubusercontent.com/75080516/229736859-92090c4c-ce56-409e-8f66-ae9a1456359d.PNG)
 
 ### Acknowledgements
