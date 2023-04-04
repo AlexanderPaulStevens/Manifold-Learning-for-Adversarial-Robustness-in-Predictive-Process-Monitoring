@@ -1,3 +1,5 @@
+# The code and architecture in this file stems from: https://github.com/Khamies/LSTM-Variational-AutoEncoder
+# I have added this file to my own GitHub, so that interested people can see how the LSTM-VAE looks like.
 import os
 import torch
 import wandb
