@@ -11,7 +11,7 @@ This preview file contains the adversarial training architecture, and how regula
 - **[Introduction](#Introduction)**
 - **[Files](#Files)**
 - **[**Experiment**](#Experiment)**
-- **[**Adversarial**](#Adversarial Example Generation and Training)**
+- **[**Adversarial**](#Adversarial)**
 - **[Acknowledgements](#Acknowledgements)**
 - **[License](#License)** 
 
