@@ -1,3 +1,6 @@
+# The code and architecture in this file stems from: hhttps://github.com/irhete/predictive-monitoring-benchmark
+# I have only added this file to my own GitHub, to make my own code reproducible.
+# I thank the authors for their valuable work.
 import sys
 
 import dataset_confs
