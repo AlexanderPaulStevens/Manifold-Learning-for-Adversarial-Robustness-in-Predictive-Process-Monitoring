@@ -36,9 +36,11 @@ The folder PDF contains the high-resolution figures (PDF format) that have been 
 
 ### Experiment 
 To define the optimal models (and save them locally)
-- *Logistic Regression (LR) and Random Forest (RF)*
+
+*Logistic Regression (LR) and Random Forest (RF)*
 - experiment_ML.py
-- *Variational Autoencoder (VAE)*
+
+*Variational Autoencoder (VAE)*
 - experiment_VAE.py
 
 ### AdversarialExperiment
