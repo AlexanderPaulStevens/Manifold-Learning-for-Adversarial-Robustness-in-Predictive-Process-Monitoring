@@ -54,7 +54,3 @@ The adversarial example generation and adversarial training algorithm
 - https://github.com/Khamies/LSTM-Variational-AutoEncoder
 
 We again thank the authors for their valuable and easily reproducible work.
-
-### License 
-
-![](https://img.shields.io/github/license/AlexanderPaulStevens/ManifoldLearningPPM)
