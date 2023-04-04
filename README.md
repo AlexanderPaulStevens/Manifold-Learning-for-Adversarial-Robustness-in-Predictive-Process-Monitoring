@@ -87,8 +87,6 @@ The "President" word has been used as the start of the sentences. We randomly ge
 - Sentence 1: **President bush veto power changes meant to be a great number**
 - Sentence 2: **President bush veto power opposed to the president of the house**
 
-
-
 ```markdown
  *bush veto power opposed to the president of the house
  bush veto power opposed to the president of the house.
@@ -112,39 +110,15 @@ The "President" word has been used as the start of the sentences. We randomly ge
  *bush veto power changes meant to be a great number
 ```
 
-
-
-## Play with the model
-
-To play with the model, a jupyter notebook has been provided, you can find it [here](https://github.com/Khamies/LSTM-Sequence-VAE/blob/main/play_with_model.ipynb)
-
-### Citation
-
-> ```
-> @misc{Khamies2021SequenceVAE,
-> author = {Khamies, Waleed},
-> title = {PyTorch Implementation of Generating Sentences from a Continuous Space by Bowman et al. 2015},
-> year = {2021},
-> publisher = {GitHub},
-> journal = {GitHub repository},
-> howpublished = {\url{https://github.com/Khamies/Sequence-VAE}},
-> }
-> ```
-
-
-
 ### Acknowledgement
 
-- This work has been inspired from [Sentence-VAE](https://github.com/timbmg/Sentence-VAE) , where their data prepossessing pipeline is used.
+- This work has used the GitHub repository from:
 
-### Connect with me :slightly_smiling_face:
+- https://github.com/irhete/predictive-monitoring-benchmark
+- https://github.com/Khamies/LSTM-Variational-AutoEncoder
 
-For any question or a collaboration, drop me a message [here](mailto:khamiesw@outlook.com?subject=[GitHub]%20Sequence-VAE%20Repo)
-
-Follow me on [Linkedin](https://www.linkedin.com/in/khamiesw/)!
-
-**Thank you :heart:**
+We again thank the authors for their valuable and easily reproducible work.
 
 ### License 
 
-![](https://img.shields.io/github/license/khamies/LSTM-Sequence-VAE)
+https://github.com/AlexanderPaulStevens/ManifoldLearningPPM/blob/main/LICENSE
