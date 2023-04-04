@@ -41,9 +41,7 @@ To define the optimal models (and save them locally)
 - experiment_ML.py
 
 *Variational Autoencoder (VAE)*
-- experiment_VAE.py!
-
-![VAE](https://user-images.githubusercontent.com/75080516/229736711-cfb6082b-7a2d-4602-982e-4a110624cb07.PNG)
+- experiment_VAE.py
 
 ### AdversarialExperiment
 The adversarial example generation and adversarial training algorithm
