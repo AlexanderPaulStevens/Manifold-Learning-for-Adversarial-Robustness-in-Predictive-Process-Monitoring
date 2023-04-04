@@ -43,7 +43,7 @@ To define the optimal models (and save them locally)
 *Variational Autoencoder (VAE)*
 - experiment_VAE.py!
 
-[VAE](https://user-images.githubusercontent.com/75080516/229736606-e50a7ff7-7fdf-4535-ac97-4b02732a3c88.PNG)
+![VAE](https://user-images.githubusercontent.com/75080516/229736711-cfb6082b-7a2d-4602-982e-4a110624cb07.PNG)
 
 ### AdversarialExperiment
 The adversarial example generation and adversarial training algorithm
@@ -52,6 +52,7 @@ The adversarial example generation and adversarial training algorithm
 - adversarial_experiment.py
 
 ![AdversarialExamples](https://user-images.githubusercontent.com/75080516/229736410-27d8109d-796a-4014-9f25-2e4f05a4fe6e.PNG)
+![AdversarialExamples](https://user-images.githubusercontent.com/75080516/229736859-92090c4c-ce56-409e-8f66-ae9a1456359d.PNG)
 
 ### Acknowledgements
 
