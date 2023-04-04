@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jan 27 12:25:55 2023
-
-@author: u0138175
-"""
-
+# The code and architecture in this file stems from: https://github.com/Khamies/LSTM-Variational-AutoEncoder
+# I have only added this file to my own GitHub, so that interested people can see how the LSTM-VAE looks like.
+# I thank the authors from their valuable work
 import torch
 
 class VAE_Loss(torch.nn.Module):
