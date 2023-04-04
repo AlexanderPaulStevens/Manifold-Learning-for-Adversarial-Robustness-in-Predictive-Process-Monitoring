@@ -57,4 +57,4 @@ We again thank the authors for their valuable and easily reproducible work.
 
 ### License 
 
-https://github.com/AlexanderPaulStevens/ManifoldLearningPPM/blob/main/LICENSE
+![](https://img.shields.io/github/license/AlexanderPaulStevens/ManifoldLearningPPM)
