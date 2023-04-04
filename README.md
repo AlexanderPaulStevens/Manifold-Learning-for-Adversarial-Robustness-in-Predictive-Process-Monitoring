@@ -9,9 +9,10 @@ This preview file contains the adversarial training architecture, and how regula
 ### Table of Contents
 
 - **[Introduction](#Introduction)**
-- **[Setup](#Setup)**
-- [**Run the code**](#Run-the-code)
-- **[Training](#Training)**
+- **[Files](#Files)**
+- **[**Experiment**](#Experiment)**
+- **[Adversarial Example Generation and Training](#Adversarial Example Generation and Training)**
+- **[Acknowledgements](#Adversarial Example Generation and Training)**
 - **[License](#License)** 
 
 
@@ -45,7 +46,7 @@ The adversarial example generation and adversarial training algorithm
 *Logistic Regression (LR) and Random Forest (RF)*
 - adversarial_experiment.py
 
-### Acknowledgement
+### Acknowledgements
 
 - This work has used the GitHub repository from:
 
