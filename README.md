@@ -11,7 +11,7 @@ This preview file contains the adversarial training architecture, and how regula
 - **[Introduction](#Introduction)**
 - **[Files](#Files)**
 - **[**Experiment**](#Experiment)**
-- **[**Adversarial**](#Adversarial)**
+- **[**AdversarialExperiment**](#AdversarialExperiment)**
 - **[Acknowledgements](#Acknowledgements)**
 - **[License](#License)** 
 
@@ -41,7 +41,7 @@ To define the optimal models (and save them locally)
 *Variational Autoencoder (VAE)*
 - experiment_VAE.py
 
-### Adversarial Example Generation and Training
+### AdversarialExperiment
 The adversarial example generation and adversarial training algorithm
 *Logistic Regression (LR) and Random Forest (RF)*
 - adversarial_experiment.py
