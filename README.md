@@ -1,10 +1,10 @@
 # Manifold Learning to Improve Robustness and Generalization in Process Outcome Prediction
 
-Complementary code to reproduce the work of *Manifold Learning to Improve Robustness and Generalization in Process Outcome Prediction*
+Complementary code to reproduce the work of *Manifold Learning for Adversarial Robustness in Process Outcome Prediction*
 
 <img width="1351" alt="methodological pipeline" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/216c4de3-813b-4ea7-a960-37efe1f59709">
 
-This preview file contains the adversarial training architecture, and how regular adversarial training deviates from on-manifold adversarial training. More information is given below.
+This preview file contains the methodological pipeline for how adversarial train data is generated for adversarial training purposes, and how adversarial examples for the test data consist of the incorrectly predicted prefixes and the adversarial prefixes.
 
 ### Table of Contents
 
@@ -14,8 +14,6 @@ This preview file contains the adversarial training architecture, and how regula
 - **[**AdversarialExperiment**](#AdversarialExperiment)**
 - **[Acknowledgements](#Acknowledgements)**
 - **[License](#License)** 
-
-
 
 ### Introduction
 
@@ -37,8 +35,11 @@ The folder PDF contains the high-resolution figures (PDF format) that have been 
 ### Experiment 
 To define the optimal models (and save them locally)
 
-*Logistic Regression (LR) and Random Forest (RF)*
+*Logistic Regression (LR), Random Forest (RF) and XGBoost (XGB)*
 - experiment_ML.py
+
+*Long Short-Term Memory (lSTM) neural networks*
+- experiment_DL.py
 
 *Variational Autoencoder (VAE)*
 - experiment_VAE.py
@@ -46,8 +47,11 @@ To define the optimal models (and save them locally)
 ### AdversarialExperiment
 The adversarial example generation and adversarial training algorithm
 
-*Logistic Regression (LR) and Random Forest (RF)*
+*Logistic Regression (LR), Random Forest (RF) XGBoost (XGB)*
 - adversarial_experiment.py
+
+*Long Short-Term Memory (LSTM) neural networks*
+- adversarial_experiment_LSTM.py
 
 ![adversarial example generation](https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/fb308303-c6f2-41b3-b6d3-3b31d7dbc355)
 
