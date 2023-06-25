@@ -49,7 +49,6 @@ print('Dataset:', dataset_name)
 print('Classifier', cls_method)
 dataset_manager = DatasetManager(dataset_name)
 data = dataset_manager.read_dataset()
-data = data[:10000]
 # if "bpic2012" in dataset_name:
 #    data = data[data['Activity'].str.startswith('W')].copy()
 cls_encoder_args, min_prefix_length, max_prefix_length, activity_col, resource_col = arguments.extract_args(data, dataset_manager)
