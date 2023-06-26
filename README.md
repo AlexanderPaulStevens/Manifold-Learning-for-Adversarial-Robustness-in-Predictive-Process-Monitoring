@@ -2,6 +2,18 @@
 
 Complementary code to reproduce the work of *Manifold Learning for Adversarial Robustness in Process Outcome Prediction*
 
+<div class="container">
+  <h3>Default</h3>
+  <ol>
+    <li>Do</li>
+    <li>Re</li>
+    <li>Mi</li>
+    <li>Fa</li>
+    <li>So</li>
+    <li>La</li>
+  </ol>
+</div>
+
 This following file contains the methodological pipeline for how adversarial train data is generated for adversarial training purposes, and how adversarial examples for the test data consist of the incorrectly predicted prefixes and the adversarial prefixes.
 
 <img width="1351" alt="methodological pipeline" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/23a0ef5c-56d5-4c4a-bdae-414584243386">
