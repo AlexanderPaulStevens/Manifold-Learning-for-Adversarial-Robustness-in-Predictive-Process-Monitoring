@@ -13,7 +13,7 @@ First, we perform an out-of-time train/test split. A classifier is trained on th
 The model architecture of the Long Short-Term Memory (LSTM) neural network is given in the following figure. A class-specific manifold is learnt for each label of the dataset.
 
 <p align="center">
-<img width="662" alt="VAE" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/3c7a8cbf-1c82-414f-886c-3834c0f0f563">
+<img width="500" alt="VAE" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/3c7a8cbf-1c82-414f-886c-3834c0f0f563">
 </p>
 
 ### Table of Contents
