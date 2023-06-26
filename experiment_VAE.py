@@ -31,12 +31,12 @@ torch.autograd.set_detect_anomaly(True)
 ##################################################################
 
 #####################PARAMETERS###################################
-
+os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 dataset_ref_to_datasets = {
-    "production": ["production"],
-    # "bpic2012": ["bpic2012_accepted"]
-    # , "bpic2012_cancelled", "bpic2012_declined"],
-    "bpic2015": ["bpic2015_%s_f2" % (municipality) for municipality in range(1, 3)],
+    # "production": ["production"],
+    "bpic2012": ["bpic2012_cancelled"]
+    # , "bpic2012_accepted", "bpic2012_declined"],
+    #"bpic2015": ["bpic2015_%s_f2" % (municipality) for municipality in range(1, 3)],
     # sepsis_cases": ["sepsis_cases_4"],
     # "bpic2011": ["bpic2011_f%s"%formula for formula in range(2,3)],
     # "bpic2017": ["bpic2017_accepted", "bpic2017_cancelled", "bpic2017_refused"],

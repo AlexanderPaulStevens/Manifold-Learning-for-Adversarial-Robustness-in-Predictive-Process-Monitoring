@@ -28,8 +28,7 @@ from sklearn.preprocessing import MinMaxScaler
 from DatasetManager import DatasetManager
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
-# selfmade
-warnings.simplefilter(action='ignore', category=FutureWarning)
+
 # Use GPU if available
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # to explicitly raise an error with a stack trace to easier debug which operation might have created the invalid values
@@ -38,12 +37,13 @@ torch.autograd.set_detect_anomaly(True)
 # encodings dictionary
 encoding = ['agg']
 encoding_dict = {"agg": ["agg"]}
-
+os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 # datasets dictionary
 dataset_ref_to_datasets = {
-    "production": ["production"],
-    "bpic2015": ["bpic2015_%s_f2" % (municipality) for municipality in range(1, 3)],
-    # "bpic2012": ["bpic2012_accepted", "bpic2012_cancelled", "bpic2012_declined"],
+    #"production": ["production"],
+    "bpic2015": ["bpic2015_%s_f2" % (municipality) for municipality in range(1, 2)],
+    # "bpic2012": ["bpic2012_cancelled"]
+       #           , "bpic2012_cancelled", "bpic2012_declined","bpic2012_accepted"],
     # "hospital_billing": ["hospital_billing_%s"%suffix for suffix in [2,3]],
     # "traffic_fines": ["traffic_fines_%s" % formula for formula in range(1, 2)],
     # "bpic2017": ["bpic2017_accepted","bpic2017_cancelled","bpic2017_refused"],
@@ -84,6 +84,7 @@ for dataset_name in datasets:
         print('Classifier', cls_method)
         dataset_manager = DatasetManager(dataset_name)
         data = dataset_manager.read_dataset()
+        
         # if "bpic2012" in dataset_name:
         #    data = data[data['Activity'].str.startswith('W')]
         cls_encoder_args, min_prefix_length, max_prefix_length, activity_col, resource_col = arguments.extract_args(data, dataset_manager)
@@ -94,6 +95,7 @@ for dataset_name in datasets:
 
         # prefix generation of train and test data
         dt_train_prefixes = dataset_manager.generate_prefix_data(train, min_prefix_length, max_prefix_length)
+        print('cases',len(set(dt_train_prefixes['Case ID'])))
         dt_test_prefixes = dataset_manager.generate_prefix_data(test, min_prefix_length, max_prefix_length)
         test_y = dataset_manager.get_label_numeric(dt_test_prefixes)
         train_y = dataset_manager.get_label_numeric(dt_train_prefixes)

@@ -1,6 +1,3 @@
-# The code and architecture in this file stems from: https://github.com/irhete/predictive-monitoring-benchmark
-# I have added this file to my own GitHub, to make my own code reproducible.
-# I thank the authors for their valuable work.
 import os
 
 case_id_col = {}
