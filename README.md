@@ -2,7 +2,7 @@
 
 Complementary code to reproduce the work of *Manifold Learning for Adversarial Robustness in Process Outcome Prediction*
 
-<img width="1351" alt="methodological pipeline" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/216c4de3-813b-4ea7-a960-37efe1f59709">
+[Methodological pipeline.pdf](https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/files/11866113/Methodological.pipeline.pdf)
 
 This preview file contains the methodological pipeline for how adversarial train data is generated for adversarial training purposes, and how adversarial examples for the test data consist of the incorrectly predicted prefixes and the adversarial prefixes.
 
@@ -53,7 +53,7 @@ The adversarial example generation and adversarial training algorithm
 *Long Short-Term Memory (LSTM) neural networks*
 - adversarial_experiment_LSTM.py
 
-![adversarial example generation](https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/fb308303-c6f2-41b3-b6d3-3b31d7dbc355)
+[adversarial example generation.pdf](https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/files/11866118/adversarial.example.generation.pdf)
 
 ### Acknowledgements
 
