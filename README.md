@@ -21,7 +21,7 @@ The model architecture of the Long Short-Term Memory (LSTM) neural network is gi
 - **[Introduction](#Introduction)**
 - **[Files](#Files)**
 - **[**Experiment**](#Experiment)**
-- **[**AdversarialExperiment**](#AdversarialExperiment)**
+- **[**Adversarial Experiment**](#AdversarialExperiment)**
 - **[Acknowledgements](#Acknowledgements)**
 - **[License](#License)** 
 
