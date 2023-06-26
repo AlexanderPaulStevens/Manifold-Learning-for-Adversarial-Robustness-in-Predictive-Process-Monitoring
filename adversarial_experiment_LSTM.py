@@ -1,6 +1,6 @@
 from attacks import AdversarialAttacks_LSTM
 import torch
-from manifold import AdversarialAttacks_manifold_LSTM
+from manifold import AdversarialAttacks_manifold_LSTM, Manifold
 from settings import global_setting, training_setting
 from util.Arguments import Args
 from util.DataCreation import DataCreation
@@ -16,7 +16,7 @@ import random
 from util.DataCreation import DataCreation
 os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 
-dataset_name = 'production'
+dataset_name = 'bpic2012_accepted'
 cls_method = 'LSTM'
 
 """Experiments."""
@@ -64,7 +64,6 @@ print('Dataset:', dataset_name)
 print('Classifier', cls_method)
 dataset_manager = DatasetManager(dataset_name)
 data = dataset_manager.read_dataset()
-print(len(data))
 cls_encoder_args, min_prefix_length, max_prefix_length, activity_col, resource_col = arguments.extract_args(data, dataset_manager)
 print('prefix lengths', min_prefix_length, 'until', max_prefix_length)
 datacreator = DataCreation(dataset_manager, dataset_name, max_prefix_length, cls_method, cls_encoding)
@@ -153,7 +152,7 @@ print('batch_size', batch_size)
 print('learning rate', learning_rate)
 
 lstmmodel = LSTMModel(embed_size, dropout, lstm_size, optimizer_name, batch_size, learning_rate, vocab_size, max_prefix_length, dataset_name, cls_method)
-cls = lstmmodel.make_LSTM_model(activity_train, resource_train, activity_test, resource_test, train_y,test_y)
+cls = lstmmodel.make_LSTM_model(activity_train, resource_train, activity_val, resource_val, train_y,val_y)
 #cls = Model(embed_size, hidden_size, dropout, vocab_size, max_prefix_length)
 #cls.load_state_dict(checkpoint)
 
@@ -161,50 +160,18 @@ cls.eval()
 pred = cls(activity_test, resource_test).detach().numpy()
 print('auc no adversarial attacks', roc_auc_score(test_y, pred)) 
 
-def perform_attack(attack_type, attack_col, train_prefixes, test_prefixes, cls, attack, attack_manifold, datacreator, results_cls, results_test):
-    print('attack', attack_type, attack_col)
-    
-    # Adversarial - Training Data
-    adversarial_prefixes_train, _ = attack.create_adversarial_dt_named_train(attack_type, attack_col, train_prefixes, cls)
-    adversarial_train_prefixes = pd.concat([train_prefixes, adversarial_prefixes_train])
-    activity_train, resource_train, train_y,_ = datacreator.groupby_pad(adversarial_train_prefixes, cols, activity_col, resource_col)
-    cls_adv = lstmmodel.make_LSTM_model(activity_train, resource_train, activity_val, resource_val, train_y, val_y)
-    
-    # Adversarial - Testing Data
-    adversarial_prefixes_test = attack.create_adversarial_dt_named_test(attack_type, attack_col, test_prefixes, cls)
-    activity_test_adv, resource_test_adv, test_y_adv, _ = datacreator.groupby_pad(adversarial_prefixes_test, cols, activity_col, resource_col)
-    
-    # Save Adversarial Results to Dictionary
-    results_cls['adv_cls_' + attack_type + '_' + attack_col] = cls_adv
-    results_test['adv_test_' + attack_type + '_' + attack_col] = (activity_test_adv, resource_test_adv, test_y_adv)
-    
-    # On-Manifold - Training Data
-    manifold_prefixes_train = attack_manifold.create_adversarial_dt_named_LSTM_train(attack_type, attack_col, train_prefixes, test_prefixes, cls)
-    manifold_train_prefixes = pd.concat([train_prefixes, manifold_prefixes_train])
-    activity_train_manifold, resource_train_manifold, train_y_manifold,_ = datacreator.groupby_pad(manifold_train_prefixes, cols, activity_col, resource_col)
-    cls_manifold = lstmmodel.make_LSTM_model(activity_train_manifold, resource_train_manifold, activity_val, resource_val, train_y_manifold, val_y)
-
-    # On-Manifold - Testing Data
-    manifold_prefixes_test = attack_manifold.create_adversarial_dt_named_LSTM_test(attack_type, attack_col, train_prefixes, test_prefixes, cls)
-    activity_test_manifold, resource_test_manifold, test_y_manifold,_ = datacreator.groupby_pad(manifold_prefixes_test, cols, activity_col, resource_col)
-   
-    # Save On-Manifold Results to Dictionary
-    results_cls['manifold_cls_' + attack_type + '_' + attack_col] = cls_manifold
-    results_test['manifold_test_' + attack_type + '_' + attack_col] = (activity_test_manifold, resource_test_manifold, test_y_manifold)
-    print('saved to dictionary')
-
 results_cls = {}
 results_test = {}
 
-attack = AdversarialAttacks_LSTM(max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list)
-attack_manifold = AdversarialAttacks_manifold_LSTM(dataset_name,dataset_manager, min_prefix_length, max_prefix_length, activity_col, resource_col, cat_cols, cols, payload_values, vocab_size, datacreator, attack, no_cols_list)
-
+attack = AdversarialAttacks_LSTM(train, dt_train_prefixes, dt_test_prefixes, max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list)
+manifold_creator = Manifold(dataset_name, None, None, dataset_manager, datacreator, max_prefix_length, train, dt_train_prefixes, dt_test_prefixes, attack, activity_col, resource_col, cat_cols, cols, vocab_size, payload_values)
+attack_manifold = AdversarialAttacks_manifold_LSTM(dataset_name,dataset_manager, max_prefix_length, train, dt_train_prefixes, dt_test_prefixes, activity_col, resource_col, cat_cols, cols, payload_values, vocab_size, datacreator, attack, no_cols_list, manifold_creator)
 
 # Adversarial attack (A1)
 attack_type = 'last_event'
 attack_col = 'Activity'
 
-perform_attack(attack_type, attack_col, dt_train_prefixes, dt_test_prefixes, cls, attack, attack_manifold, datacreator, results_cls, results_test)
+results_cls, results_test = manifold_creator.perform_attack_DL(attack_type, attack_col, activity_val, resource_val, val_y, cls, attack_manifold, lstmmodel, results_cls, results_test)
 
 attack_type = 'last_event'
 if dataset_name in ['bpic2017_accepted', 'bpic2017_cancelled', 'bpic2017_refused', 'bpic2015_1_f2', 'bpic2015_2_f2', 'bpic2015_3_f2', 'bpic2015_4_f2', 'bpic2015_5_f2']:
@@ -212,13 +179,13 @@ if dataset_name in ['bpic2017_accepted', 'bpic2017_cancelled', 'bpic2017_refused
 else:
     attack_col = 'Resource'
 
-perform_attack(attack_type, attack_col, dt_train_prefixes, dt_test_prefixes, cls, attack, attack_manifold, datacreator, results_cls, results_test)
+results_cls, results_test = manifold_creator.perform_attack_DL(attack_type, attack_col, activity_val, resource_val, val_y, cls, attack_manifold, lstmmodel, results_cls, results_test)
 
 # Adversarial attack (A2)
 attack_type = 'all_event'
 attack_col = 'Activity'
 
-perform_attack(attack_type, attack_col, dt_train_prefixes, dt_test_prefixes, cls, attack, attack_manifold, datacreator, results_cls, results_test)
+results_cls, results_test = manifold_creator.perform_attack_DL(attack_type, attack_col, activity_val, resource_val, val_y, cls, attack_manifold, lstmmodel, results_cls, results_test)
 
 # Adversarial attack (A2)
 attack_type = 'all_event'
@@ -227,7 +194,7 @@ if dataset_name in ['bpic2017_accepted', 'bpic2017_cancelled', 'bpic2017_refused
 else:
     attack_col = 'Resource'
 
-perform_attack(attack_type, attack_col, dt_train_prefixes, dt_test_prefixes, cls, attack, attack_manifold, datacreator, results_cls, results_test)
+results_cls, results_test = manifold_creator.perform_attack_DL(attack_type, attack_col, activity_val, resource_val, val_y, cls, attack_manifold, lstmmodel, results_cls, results_test)
 
 # Save Adversarial Results to Dictionary
 results_cls['orig_cls'] = cls

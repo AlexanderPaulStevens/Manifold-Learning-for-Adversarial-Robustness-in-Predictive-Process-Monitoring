@@ -11,6 +11,7 @@ import pandas as pd
 import warnings
 import pickle
 import os
+import random
 os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
@@ -18,8 +19,8 @@ warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # to explicitly raise an error with a stack trace to easier debug which operation might have created the invalid values
 torch.autograd.set_detect_anomaly(True)
-dataset_name = 'production'
-cls_method = 'LR'
+dataset_name = 'bpic2012_accepted'
+cls_method = 'RF'
 
 """Experiments."""
 # PARAMETERS
@@ -32,9 +33,8 @@ dataset_ref_to_datasets = {
     # "bpic2012": ["bpic2012_accepted","bpic2012_cancelled",'bpic2012_declined'],
 }
 classifiers = ['LR', 'RF', 'XGB']
-labels = ['regular', 'deviant']
-attack_types = ['all_event', 'last_event']
 seed = global_setting['seed']
+random.seed(seed)
 train_ratio = global_setting['train_ratio']
 clip = training_setting["clip"]
 params_dir = global_setting['params_dir']
@@ -86,53 +86,18 @@ filename = os.path.join(path, "model_%s_%s.pickle" % (cls_method, dataset_name))
 cls = pickle.load(open(filename, 'rb'))
 print('auc no adversarial attack', roc_auc_score(test_y_original, cls.predict_proba(dt_test_named)[:,-1]))
 
-def perform_attack(attack_type, attack_col, train_prefixes, test_prefixes, cls, attack, attack_manifold, datacreator, modelmaker, results_cls, results_test):
-    print('attack', attack_type, attack_col)
-    # Adversarial - Training Data
-    adversarial_prefixes_train, _ = attack.create_adversarial_dt_named_train(attack_type, attack_col, train_prefixes, cls)
-    adversarial_train_prefixes = pd.concat([train_prefixes, adversarial_prefixes_train])
-    train_y = datacreator.get_label_numeric_adversarial(adversarial_train_prefixes)
-    dt_train_named = datacreator.transform_data_test(feature_combiner, scaler, adversarial_train_prefixes)
-    cls_adversarial = modelmaker.model_maker(dt_train_named, train_y)
-
-    # Adversarial - Testing Data
-    adversarial_prefixes_test = attack.create_adversarial_dt_named_test(attack_type, attack_col, test_prefixes, cls)
-    test_y = datacreator.get_label_numeric_adversarial(adversarial_prefixes_test)
-    dt_test_named = datacreator.transform_data_test(feature_combiner, scaler, adversarial_prefixes_test)
-
-    # Save Adversarial Results to Dictionary
-    results_cls['adv_cls_' + attack_type + '_' + attack_col] = cls_adversarial
-    results_test['adv_test_' + attack_type + '_' + attack_col] = (dt_test_named, test_y)
-        
-    # On-Manifold - Training Data
-    manifold_prefixes_train = attack_manifold.create_adversarial_dt_named_train(attack_type, attack_col, train_prefixes, test_prefixes, cls)
-    manifold_train_prefixes = pd.concat([train_prefixes, manifold_prefixes_train])
-    train_y_manifold = datacreator.get_label_numeric_adversarial(manifold_train_prefixes)
-    dt_train_named_manifold = datacreator.transform_data_test(feature_combiner, scaler, manifold_train_prefixes)
-    cls_manifold = modelmaker.model_maker(dt_train_named_manifold, train_y_manifold)
-
-    # On-Manifold - Testing Data
-    manifold_prefixes_test = attack_manifold.create_adversarial_dt_named_test(attack_type, attack_col, train_prefixes, test_prefixes, cls)
-    test_y_manifold = datacreator.get_label_numeric_adversarial(manifold_prefixes_test)
-    dt_test_named_manifold = datacreator.transform_data_test(feature_combiner, scaler, manifold_prefixes_test)
-
-    # Save On-Manifold Results to Dictionary
-    results_cls['manifold_cls_' + attack_type + '_' + attack_col] = cls_manifold
-    results_test['manifold_test_' + attack_type + '_' + attack_col] = (dt_test_named_manifold, test_y_manifold)
-    print('saved to dictionary')
-
 results_cls = {}
 results_test = {}
 
-manifold_creator = Manifold(dataset_name, scaler, feature_combiner, dataset_manager, datacreator, min_prefix_length, max_prefix_length, activity_col, resource_col, cat_cols, cols, vocab_size, payload_values)
-attack = AdversarialAttacks(max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list, feature_combiner, scaler, dataset_manager)
-attack_manifold = AdversarialAttacks_manifold(dataset_name,dataset_manager, min_prefix_length, max_prefix_length, activity_col, resource_col, cat_cols, cols, payload_values, vocab_size, datacreator, attack)
+attack = AdversarialAttacks( train, dt_train_prefixes, dt_test_prefixes, max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list, feature_combiner, scaler, dataset_manager)
+manifold_creator = Manifold(dataset_name, scaler, feature_combiner, dataset_manager, datacreator, max_prefix_length, train, dt_train_prefixes, dt_test_prefixes, attack, activity_col, resource_col, cat_cols, cols, vocab_size, payload_values)
+attack_manifold = AdversarialAttacks_manifold(dataset_name,dataset_manager, max_prefix_length, train, dt_train_prefixes, dt_test_prefixes, payload_values, datacreator, attack, manifold_creator)
 
 # Adversarial attack A1 (Activity)
 attack_type = 'last_event'
 attack_col = 'Activity'
 
-perform_attack(attack_type, attack_col, dt_train_prefixes, dt_test_prefixes, cls, attack, attack_manifold, datacreator, modelmaker, results_cls, results_test)
+results_cls, results_test = manifold_creator.perform_attack(attack_type, attack_col, cls, attack_manifold, modelmaker, results_cls, results_test)
 
 # Adversarial attack A1 (Resource)
 ########ADVERSARIAL attack##########
@@ -141,13 +106,13 @@ if dataset_name in ['bpic2017_accepted', 'bpic2017_cancelled', 'bpic2017_refused
 else:
     attack_col = 'Resource'
 
-perform_attack(attack_type, attack_col, dt_train_prefixes, dt_test_prefixes, cls, attack, attack_manifold, datacreator, modelmaker, results_cls, results_test)
+results_cls, results_test = manifold_creator.perform_attack(attack_type, attack_col, cls, attack_manifold, modelmaker, results_cls, results_test)
 
 # Adversarial attack A2
 attack_type = 'all_event'
 attack_col = 'Activity'
 
-perform_attack(attack_type, attack_col, dt_train_prefixes, dt_test_prefixes, cls, attack, attack_manifold, datacreator, modelmaker, results_cls, results_test)
+results_cls, results_test = manifold_creator.perform_attack(attack_type, attack_col, cls, attack_manifold, modelmaker, results_cls, results_test)
 
 # Adversarial attack A2 (Resource)
 attack_type = 'all_event'
@@ -156,37 +121,41 @@ if dataset_name in ['bpic2017_accepted', 'bpic2017_cancelled', 'bpic2017_refused
 else:
     attack_col = 'Resource'
 
-perform_attack(attack_type, attack_col, dt_train_prefixes, dt_test_prefixes, cls, attack, attack_manifold, datacreator, modelmaker, results_cls, results_test)
+dt_train_prefixes2 = dt_train_prefixes.copy()
+dt_test_prefixes2 = dt_test_prefixes.copy()
+train2 = train.copy()
+
+results_cls, results_test = manifold_creator.perform_attack(attack_type, attack_col, cls, attack_manifold, modelmaker, results_cls, results_test)
 
 # Save Adversarial Results to Dictionary
 results_cls['orig_cls'] = cls
 results_test['orig_test'] = (dt_test_named, test_y_original)
 
 def save_auc_scores(results_cls, results_test, results_dir, cls_method, dataset_name):
-        for key, value in results_cls.items():
-                print('cls key', key)
-                cls = value
-                scenario_name = key.split('_')[0]
+        for key_cls, value_cls in results_cls.items():
+                print('cls key', key_cls)
+                cls = value_cls
+                scenario_name = key_cls.split('_')[0]
                 if scenario_name == 'orig':
                         cls_string = 'cls_orig'
                 else:
-                        attack_type = key.split('_')[2]
-                        attack_col = key.split('_')[4]
+                        attack_type = key_cls.split('_')[2]
+                        attack_col = key_cls.split('_')[4]
                         attack_type = 'A1' if attack_type == 'last' else 'A2'
                         attack_col = 'act' if attack_col == 'Activity' else 'res'
                         cls_string = 'cls_' +scenario_name + '_' + attack_type + '_' + attack_col
-                for key, value in results_test.items():
+                for key_test, value_test in results_test.items():
                         #results_test['manifold_test_' + attack_type + '_' + attack_col] = (dt_test_named_manifold, test_y_manifold)
-                        scenario_name = key.split('_')[0]            
+                        scenario_name = key_test.split('_')[0]            
                         if scenario_name == 'orig':
                                 test_string = 'test_orig'
                         else:
-                                attack_type = key.split('_')[2]
-                                attack_col = key.split('_')[4]
+                                attack_type = key_test.split('_')[2]
+                                attack_col = key_test.split('_')[4]
                                 attack_type = 'A1' if attack_type == 'last' else 'A2'
                                 attack_col = 'act' if attack_col == 'Activity' else 'res'
                                 test_string = 'test_' +scenario_name + '_' + attack_type + '_' + attack_col
-                        dt_test_named, test_y = value
+                        dt_test_named, test_y = value_test
                         predictions = cls.predict_proba(dt_test_named)[:, -1]
                         auc = roc_auc_score(test_y, predictions)
                         outfile = os.path.join(results_dir, f"performance_results_{cls_method}_{dataset_name}_{cls_string}_{test_string}.csv")
