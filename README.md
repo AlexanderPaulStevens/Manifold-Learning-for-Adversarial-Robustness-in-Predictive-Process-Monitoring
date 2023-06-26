@@ -64,7 +64,7 @@ The adversarial example generation and adversarial training algorithm
 - adversarial_experiment_LSTM.py
 
 <p align="center">
-<img width="700" alt="adversarial example generation" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/3a7b8d66-9c8c-4fac-a92f-a0d10c2afc2d)
+<img width="700" alt="adversarial example generation" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/3a7b8d66-9c8c-4fac-a92f-a0d10c2afc2d">
 </p>
 
 ### Acknowledgements
