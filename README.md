@@ -6,7 +6,7 @@ This following file contains the methodological pipeline for how adversarial tra
 
 <img width="1351" alt="methodological pipeline" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/23a0ef5c-56d5-4c4a-bdae-414584243386">
 
-First, indicated by (1) in Figure 1, we perform an out-of-time train/test split. A classifier is trained on the train prefixes. In the second step 2, we determine the correctly predicted train prefixes and the correctly predicted test prefixes (2). In the third step 3 , we generate adversarial examples for correctly predicted train and test prefixes. The fourth step 4 shows that the adversarial train data consists of 50% original train prefixes and 50% adversarial examples, which means that we generate adversarial examples from the correctly predicted prefixes until we have the same amount as the original prefixes. The test prefixes, on the other hand, consist of both the misclassified test prefixes and the crafted adversarial examples. In the final step 5, an adversarial classifier is built with the adversarial train data.
+First, we perform an out-of-time train/test split. A classifier is trained on the train prefixes. In the second step 2, we determine the correctly predicted train prefixes and the correctly predicted test prefixes. In the third step 3 , we generate adversarial examples for correctly predicted train and test prefixes. The fourth step 4 shows that the adversarial train data consists of 50% original train prefixes and 50% adversarial examples, which means that we generate adversarial examples from the correctly predicted prefixes until we have the same amount as the original prefixes. The test prefixes, on the other hand, consist of both the misclassified test prefixes and the crafted adversarial examples. In the final step 5, an adversarial classifier is built with the adversarial train data.
 
 ### Table of Contents
 
@@ -19,7 +19,7 @@ First, indicated by (1) in Figure 1, we perform an out-of-time train/test split.
 
 ### Introduction
 
-In the related paper, we use of manifold learning to generate natural adversarial examples that are restricted within the range of data that the model is trained on, i.e. adversarial examples that are restricted to its class-specific manifold. We suggests that learning from these on-manifold adversarial examples breaks the trade-off between adversarial robustness and generalization, showing that there exist models that remain accurate on new, unseen data, while being robust against worst-case adversarial treats. This GitHub repository contains all the code necessary to reproduce the work.
+In this paper, we use manifold learning to generate natural adversarial examples that are restricted within the range of data that the model is trained on, i.e. projected to its class-specific manifold. The experimental results suggest that, by learning from these on-manifold adversarial examples,  we can create models that remain accurate on new, unseen data, while being robust against (worst-case) adversarial scenarios. This GitHub repository contains all the code necessary to reproduce the work.
 
 ### Files
 
