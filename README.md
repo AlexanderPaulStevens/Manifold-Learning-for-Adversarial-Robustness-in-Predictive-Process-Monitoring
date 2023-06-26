@@ -63,9 +63,9 @@ The adversarial example generation and adversarial training algorithm
 *Long Short-Term Memory (LSTM) neural networks*
 - adversarial_experiment_LSTM.py
 
-
+<p align="center">
 ![adversarial example generation](https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/e3855fd8-33ae-45e3-aefb-8126b9dc58ec)
-
+</p>
 
 ### Acknowledgements
 
