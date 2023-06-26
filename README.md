@@ -2,55 +2,11 @@
 
 Complementary code to reproduce the work of *Manifold Learning for Adversarial Robustness in Process Outcome Prediction*
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Title of the document</title>
-    <style>
-      .circle {
-        border-radius: 50%;
-        width: 34px;
-        height: 34px;
-        padding: 10px;
-        background: #fff;
-        border: 3px solid #000;
-        color: #000;
-        text-align: center;
-        font: 32px Arial, sans-serif;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="circle">1</div>
-  </body>
-</html>
-
 This following file contains the methodological pipeline for how adversarial train data is generated for adversarial training purposes, and how adversarial examples for the test data consist of the incorrectly predicted prefixes and the adversarial prefixes.
 
 <img width="1351" alt="methodological pipeline" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/23a0ef5c-56d5-4c4a-bdae-414584243386">
 
-First, indicated by <i class="fa-solid fa-circle-1"></i> in Figure 1, we perform an out-of-time train/test split. 
-A classifier is trained on the train prefixes.
-In the second step 2 , we determine the correctly predicted
-train prefixes and the correctly predicted test prefixes. Note
-that in the case of a black-box attack, we have access to
-the predicted output of these prefixes, allowing us to try to
-alter the predictions. For example, for the test prefixes, we
-can see that prefix 5 was incorrectly predicted, and prefixes 6
-and 7 correctly. In the third step 3 , we generate adversarial
-examples for correctly predicted train and test prefixes. The
-fourth step 4 shows that the adversarial train data consists
-of 50% original train prefixes and 50% adversarial examples,
-which means that we generate adversarial examples from the
-correctly predicted prefixes until we have the same amount
-as the original prefixes. The test prefixes, on the other hand,
-consist of both the misclassified test prefixes and the crafted
-adversarial examples. Therefore, it is crucial to consider that
-these incorrectly predicted test prefixes, originally misclassified,
-can represent edge cases, making it challenging for any
-classifier to accurately predict their results. In the final step
-5 , an adversarial classifier is built on the adversarial train
-data.
+First, indicated by (1) in Figure 1, we perform an out-of-time train/test split. A classifier is trained on the train prefixes. In the second step 2, we determine the correctly predicted train prefixes and the correctly predicted test prefixes (2). In the third step 3 , we generate adversarial examples for correctly predicted train and test prefixes. The fourth step 4 shows that the adversarial train data consists of 50% original train prefixes and 50% adversarial examples, which means that we generate adversarial examples from the correctly predicted prefixes until we have the same amount as the original prefixes. The test prefixes, on the other hand, consist of both the misclassified test prefixes and the crafted adversarial examples. In the final step 5, an adversarial classifier is built with the adversarial train data.
 
 ### Table of Contents
 
