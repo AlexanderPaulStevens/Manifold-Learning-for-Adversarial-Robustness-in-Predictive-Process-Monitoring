@@ -54,7 +54,7 @@ To define the optimal models (and save them locally)
 *Variational Autoencoder (VAE)*
 - experiment_VAE.py
 
-### AdversarialExperiment
+### Adversarial Experiment
 The adversarial example generation and adversarial training algorithm
 
 *Logistic Regression (LR), Random Forest (RF) XGBoost (XGB)*
