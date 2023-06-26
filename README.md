@@ -10,6 +10,12 @@ This following file contains the methodological pipeline for how adversarial tra
 
 First, we perform an out-of-time train/test split. A classifier is trained on the train prefixes. In the second step 2, we determine the correctly predicted train prefixes and the correctly predicted test prefixes. In the third step 3 , we generate adversarial examples for correctly predicted train and test prefixes. The fourth step 4 shows that the adversarial train data consists of 50% original train prefixes and 50% adversarial examples, which means that we generate adversarial examples from the correctly predicted prefixes until we have the same amount as the original prefixes. The test prefixes, on the other hand, consist of both the misclassified test prefixes and the crafted adversarial examples. In the final step 5, an adversarial classifier is built with the adversarial train data.
 
+The model architecture of the Long Short-Term Memory (LSTM) neural network is given in the following figure. A class-specific manifold is learnt for each label of the dataset.
+
+<p align="center">
+<img width="662" alt="VAE" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/3c7a8cbf-1c82-414f-886c-3834c0f0f563">
+</p>
+
 ### Table of Contents
 
 - **[Introduction](#Introduction)**
@@ -58,7 +64,7 @@ The adversarial example generation and adversarial training algorithm
 - adversarial_experiment_LSTM.py
 
 <p align="center">
-![adversarial example generation](https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/4617049a-2a59-4d1f-bcee-e18938430cee)
+![adversarial example generation](https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/c448f8db-a6ff-4381-b85a-fee041b3d86e)
 </p>
 
 
