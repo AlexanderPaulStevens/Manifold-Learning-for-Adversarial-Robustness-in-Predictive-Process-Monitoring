@@ -14,11 +14,13 @@ from itertools import cycle, islice
 import collections
 from sklearn.metrics import accuracy_score
 torch.manual_seed(32)
+seed = 42
+random.seed(seed)
 
 class AdversarialAttacks_LSTM:
     """class to define adversarial attacks."""
 
-    def __init__(self, max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list):
+    def __init__(self, train, train_prefixes, test_prefixes, max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list):
         self.max_prefix_length = max_prefix_length
         self.payload_values = payload_values
         self.datacreator = datacreator
@@ -27,27 +29,28 @@ class AdversarialAttacks_LSTM:
         self.activity_col = activity_col
         self.resource_col = resource_col
         self.no_cols_list = no_cols_list
+        self.train = train
+        self.train_prefixes = train_prefixes
+        self.test_prefixes = test_prefixes
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    def create_adversarial_dt_named_train(self, attack_type, attack_col, dt_prefixes, classifier):
+    def create_adversarial_dt_named_train(self, attack_type, attack_col, classifier):
         print('create adversarial train prefixes')
-        dt_prefixes = dt_prefixes.copy()
-        dt_prefixes_correct, y_correct, caseIDs, correct_cases = self.correctly_predicted_prefixes(dt_prefixes, classifier)
+        dt_prefixes_correct, y_correct, caseIDs, correct_cases = self.correctly_predicted_prefixes(self.train_prefixes, classifier)
         # create adversarial train prefixes of the original instances. These can be adversarial examples of the same trace,
         # but they should have a different case ID
-        adversarial_prefixes = self.create_adversarial_prefixes(attack_type, attack_col, correct_cases, dt_prefixes, dt_prefixes_correct, y_correct, classifier, 'train')
+        adversarial_prefixes = self.create_adversarial_prefixes(attack_type, attack_col, correct_cases, self.train_prefixes, dt_prefixes_correct, y_correct, classifier, 'train')
         return adversarial_prefixes, self.threshold
 
-    def create_adversarial_dt_named_test(self, attack_type, attack_col, dt_prefixes_original, classifier):
+    def create_adversarial_dt_named_test(self, attack_type, attack_col, classifier):
         print('create adversarial test prefixes')
-        dt_prefixes = dt_prefixes_original.copy()
-        dt_prefixes_correct, y_correct, caseIDs, correct_cases = self.correctly_predicted_prefixes(dt_prefixes, classifier)
+        dt_prefixes_correct, y_correct, caseIDs, correct_cases = self.correctly_predicted_prefixes(self.test_prefixes, classifier)
         # create adversarial train prefixes of the original instances. These can be adversarial examples of the same trace,
         # but they should have a different case ID
-        adversarial_prefixes = self.create_adversarial_prefixes(attack_type, attack_col, correct_cases, dt_prefixes, dt_prefixes_correct, y_correct, classifier, 'test')
-        caseIDs = list(dt_prefixes['Case ID'].unique())
+        adversarial_prefixes = self.create_adversarial_prefixes(attack_type, attack_col, correct_cases, self.test_prefixes, dt_prefixes_correct, y_correct, classifier, 'test')
+        caseIDs = list(self.test_prefixes['Case ID'].unique())
         caseIDs_incorrect = list(set(caseIDs)-set(correct_cases))
-        incorrect_dt_prefixes = dt_prefixes[dt_prefixes['Case ID'].isin(caseIDs_incorrect)].copy()
+        incorrect_dt_prefixes = self.test_prefixes[self.test_prefixes['Case ID'].isin(caseIDs_incorrect)].copy()
         adversarial_prefixes_total = pd.concat([adversarial_prefixes, incorrect_dt_prefixes])
         return adversarial_prefixes_total
     
@@ -206,27 +209,25 @@ class AdversarialAttacks_LSTM:
 class AdversarialAttacks(AdversarialAttacks_LSTM):
     """class to define adversarial attacks."""
 
-    def __init__(self, max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list, feature_combiner, scaler, dataset_manager):
-        super().__init__(max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list)
+    def __init__(self, train, train_prefixes, test_prefixes, max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list, feature_combiner, scaler, dataset_manager):
+        super().__init__(train, train_prefixes, test_prefixes, max_prefix_length, payload_values, datacreator, cols, cat_cols, activity_col, resource_col, no_cols_list)
         self.feature_combiner = feature_combiner
         self.scaler = scaler
         self.dataset_manager = dataset_manager
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    def create_adversarial_dt_named_test(self, attack_type, attack_col, dt_prefixes, classifier):
-        dt_prefixes2 = dt_prefixes.copy()
-        dt_prefixes_correct, y_correct, correct_caseIDs = self.correctly_predicted_prefixes(dt_prefixes2, classifier)
-        caseIDs = list(dt_prefixes2['Case ID'].unique())
+    def create_adversarial_dt_named_test(self, attack_type, attack_col, classifier):
+        dt_prefixes_correct, y_correct, correct_caseIDs = self.correctly_predicted_prefixes(self.test_prefixes, classifier)
+        caseIDs = list(self.test_prefixes['Case ID'].unique())
         caseIDs_incorrect = list(set(caseIDs)-set(correct_caseIDs))
-        incorrect_dt_prefixes = dt_prefixes2[dt_prefixes2['Case ID'].isin(caseIDs_incorrect)].copy()
-        adversarial_prefixes = self.create_adversarial_prefixes(attack_type, attack_col, correct_caseIDs, dt_prefixes2, dt_prefixes_correct, classifier, 'test')
+        incorrect_dt_prefixes = self.test_prefixes[self.test_prefixes['Case ID'].isin(caseIDs_incorrect)].copy()
+        adversarial_prefixes = self.create_adversarial_prefixes(attack_type, attack_col, correct_caseIDs, self.test_prefixes, dt_prefixes_correct, classifier, 'test')
         adversarial_prefixes_concat = pd.concat([adversarial_prefixes, incorrect_dt_prefixes])
         return adversarial_prefixes_concat
 
-    def create_adversarial_dt_named_train(self, attack_type, attack_col, dt_prefixes, classifier):
-        dt_prefixes2 = dt_prefixes.copy()
-        dt_prefixes_correct, y_correct, correct_caseIDs = self.correctly_predicted_prefixes(dt_prefixes2, classifier)
-        adversarial_prefixes = self.create_adversarial_prefixes(attack_type, attack_col, correct_caseIDs, dt_prefixes2, dt_prefixes_correct, classifier, 'train')
+    def create_adversarial_dt_named_train(self, attack_type, attack_col, classifier):
+        dt_prefixes_correct, y_correct, correct_caseIDs = self.correctly_predicted_prefixes(self.train_prefixes, classifier)
+        adversarial_prefixes = self.create_adversarial_prefixes(attack_type, attack_col, correct_caseIDs, self.train_prefixes, dt_prefixes_correct, classifier, 'train')
         return adversarial_prefixes, self.threshold
 
     def create_adversarial_prefixes(self, attack_type, attack_col, caseIDs, dt_prefixes, dt_prefixes_correct, classifier, traintest):
@@ -289,7 +290,7 @@ class AdversarialAttacks(AdversarialAttacks_LSTM):
 
     def correctly_predicted_prefixes(self, dt_prefixes, classifier):
         """Check which prefixes are correctly predicted."""
-        # take the correctly predicted ones
+        # take the correctly predicted onescorrectly_predicted_prefixes
         data_last = dt_prefixes.copy()
         data_last = data_last.groupby(['Case ID']).last()
         caseIDs = list(data_last.index)
