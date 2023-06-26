@@ -40,7 +40,7 @@ To define the optimal models (and save them locally)
 *Logistic Regression (LR), Random Forest (RF) and XGBoost (XGB)*
 - experiment_ML.py
 
-*Long Short-Term Memory (lSTM) neural networks*
+*Long Short-Term Memory (LSTM) neural networks*
 - experiment_DL.py
 
 *Variational Autoencoder (VAE)*
