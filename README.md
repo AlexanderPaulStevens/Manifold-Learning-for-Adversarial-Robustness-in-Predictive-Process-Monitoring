@@ -22,6 +22,7 @@ The model architecture of the Long Short-Term Memory (LSTM) neural network is gi
 - **[Files](#Files)**
 - **[**Experiment**](#Experiment)**
 - **[**Adversarial Experiment**](#AdversarialExperiment)**
+- **[**Appendix**](#Appendix)**
 - **[Acknowledgements](#Acknowledgements)**
 - **[License](#License)** 
 
@@ -66,6 +67,11 @@ The adversarial example generation and adversarial training algorithm
 <p align="center">
 <img width="700" alt="adversarial example generation" src="https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/3a7b8d66-9c8c-4fac-a92f-a0d10c2afc2d">
 </p>
+
+### Appendix
+
+![BPIC20152Merged](https://github.com/AlexanderPaulStevens/Manifold-Learning-for-Adversarial-Robustness-in-Predictive-Process-Monitoring/assets/75080516/35b5ecfc-507e-4c18-a695-cd7dd34b40c1)
+
 
 ### Acknowledgements
 
