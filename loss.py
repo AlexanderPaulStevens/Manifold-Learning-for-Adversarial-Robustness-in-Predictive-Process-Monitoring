@@ -32,7 +32,7 @@ class VAE_Loss(torch.nn.Module):
   def reconstruction_loss(self, x_hat_param, x):
     x = x.view(-1).contiguous()
     x_hat_param = x_hat_param.view(-1, x_hat_param.size(2))
-
+    print('crucial', x.shape, x_hat_param.shape)
     recon = self.nlloss(x_hat_param, x)
 
     return recon

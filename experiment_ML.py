@@ -6,7 +6,7 @@ Created on Mon Feb 20 09:37:13 2023
 """
 
 ####################PACKAGES AND FUNCTIONS#######################
-import torchaudio
+#import torchaudio
 from train import Trainer
 from loss import VAE_Loss
 from operator import itemgetter
@@ -37,12 +37,11 @@ torch.autograd.set_detect_anomaly(True)
 # encodings dictionary
 encoding = ['agg']
 encoding_dict = {"agg": ["agg"]}
-os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 # datasets dictionary
 dataset_ref_to_datasets = {
     #"production": ["production"],
-    "bpic2015": ["bpic2015_%s_f2" % (municipality) for municipality in range(1, 2)],
-    # "bpic2012": ["bpic2012_cancelled"]
+    #"bpic2015": ["bpic2015_%s_f2" % (municipality) for municipality in range(1, 2)],
+    "bpic2012": ["bpic2012_declined"]
        #           , "bpic2012_cancelled", "bpic2012_declined","bpic2012_accepted"],
     # "hospital_billing": ["hospital_billing_%s"%suffix for suffix in [2,3]],
     # "traffic_fines": ["traffic_fines_%s" % formula for formula in range(1, 2)],
@@ -84,11 +83,12 @@ for dataset_name in datasets:
         print('Classifier', cls_method)
         dataset_manager = DatasetManager(dataset_name)
         data = dataset_manager.read_dataset()
-        
+        print(data[data['Case ID']=='173688'])
+        breakpoint()
         # if "bpic2012" in dataset_name:
         #    data = data[data['Activity'].str.startswith('W')]
         cls_encoder_args, min_prefix_length, max_prefix_length, activity_col, resource_col = arguments.extract_args(data, dataset_manager)
-        datacreator = DataCreation(dataset_manager, dataset_name, cls_method, cls_encoding)
+        datacreator = DataCreation(dataset_manager, dataset_name, max_prefix_length, cls_method, cls_encoding)
         cat_cols = [activity_col, resource_col]
         cols = [cat_cols[0], cat_cols[1], cls_encoder_args['case_id_col'], 'label', 'event_nr']
         train, test = dataset_manager.split_data_strict(data, train_ratio, split="temporal")

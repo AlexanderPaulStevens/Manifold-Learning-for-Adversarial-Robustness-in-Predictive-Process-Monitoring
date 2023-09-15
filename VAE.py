@@ -86,7 +86,7 @@ class LSTM_VAE(torch.nn.Module):
 
 
     x_hat_act = self.output_act(output_decoder)
-    x_hat_act = self.log_softmax_res(x_hat_act)
+    x_hat_act = self.log_softmax_act(x_hat_act)
 
     x_hat_res = self.output_res(output_decoder)
     x_hat_res = self.log_softmax_res(x_hat_res)
@@ -96,28 +96,19 @@ class LSTM_VAE(torch.nn.Module):
   def forward(self, x_act, x_res,sentences_length,hidden_encoder):
     
     """
-      x : bsz * seq_len
+      x_act : bsz * seq_len
     
       hidden_encoder: ( num_lstm_layers * bsz * hidden_size, num_lstm_layers * bsz * hidden_size)
 
     """
     # Get Embeddings
     #encoder
-    x_act_embed_enc  = self.embed_act(x_act)
+    x_act_embed_enc  = self.embed_act(x_act) #this has the output shape [bsz, seq_len, embed_size]. This means that each activity is represented as 32 values.
+    #this therefore still means that each batch instance still has its padding, and we should still "mask" this. 
+    #for more information: https://www.youtube.com/watch?v=Fqx_RCwenfg
     maximum_padding_length = x_act_embed_enc.size(1)
     x_res_embed_enc = self.embed_res(x_res)
     x_embed_enc = torch.cat([x_act_embed_enc, x_res_embed_enc], dim=2)
-    """
-    #decoder
-    x_act_dec = torch.roll(x_act, shifts=1, dims=1)
-    x_act_dec[0][0]=0
-    x_act_embed_dec = self.embed_act(x_act_dec)
-    
-    x_res_dec = torch.roll(x_res, shifts=1, dims=1)
-    x_res_dec[0][0]=0
-    x_res_embed_dec = self.embed_res(x_res_dec)
-    x_embed_dec = torch.cat([x_act_embed_dec, x_res_embed_dec], dim=2)
-    """
     # Packing the input
     packed_x_embed_enc = torch.nn.utils.rnn.pack_padded_sequence(input= x_embed_enc, lengths= sentences_length, batch_first=True, enforce_sorted=False)
     # Encoder

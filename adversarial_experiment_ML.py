@@ -12,15 +12,14 @@ import warnings
 import pickle
 import os
 import random
-os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
 # Use GPU if available
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # to explicitly raise an error with a stack trace to easier debug which operation might have created the invalid values
 torch.autograd.set_detect_anomaly(True)
-dataset_name = 'bpic2012_accepted'
-cls_method = 'RF'
+dataset_name = 'bpic2015_1_f2'
+cls_method = 'LR'
 
 """Experiments."""
 # PARAMETERS
@@ -67,8 +66,7 @@ payload_values = {key: list(train[key].unique()) for key in cat_cols}
 # prefix generation of train and test data
 dt_train_prefixes = dataset_manager.generate_prefix_data(train, min_prefix_length, max_prefix_length)
 dt_test_prefixes = dataset_manager.generate_prefix_data(test, min_prefix_length, max_prefix_length)
-dt_train_prefixes_original = dt_train_prefixes.copy()
-dt_test_prefixes_original = dt_test_prefixes.copy()
+
 nr_events_original = list(dataset_manager.get_prefix_lengths(dt_test_prefixes))
 test_y_original = dataset_manager.get_label_numeric(dt_test_prefixes)
 train_y_original = dataset_manager.get_label_numeric(dt_train_prefixes)
@@ -83,6 +81,7 @@ args = arguments.params_args(optimal_params_filename)
 modelmaker = MakeModel(cls_method, args)
 # load original model
 filename = os.path.join(path, "model_%s_%s.pickle" % (cls_method, dataset_name))
+print(filename)
 cls = pickle.load(open(filename, 'rb'))
 print('auc no adversarial attack', roc_auc_score(test_y_original, cls.predict_proba(dt_test_named)[:,-1]))
 

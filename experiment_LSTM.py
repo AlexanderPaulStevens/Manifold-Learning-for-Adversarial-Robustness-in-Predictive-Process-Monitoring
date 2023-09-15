@@ -6,7 +6,6 @@ Created on Fri Feb 17 22:07:08 2023
 """
 
 ####################PACKAGES AND FUNCTIONS#######################
-import torchaudio
 from util.Arguments import Args
 from util.DataCreation import DataCreation
 from sklearn.metrics import roc_auc_score
@@ -24,7 +23,6 @@ import warnings
 # packages from https://github.com/Khamies/LSTM-Variational-AutoEncoder/tree/50476dd3bfe146bf8f4a74a205b78fb142e99423
 # user-specified packages
 warnings.simplefilter(action='ignore', category=FutureWarning)
-os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 # Use GPU if available
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # to explicitly raise an error with a stack trace to easier debug which operation might have created the invalid values

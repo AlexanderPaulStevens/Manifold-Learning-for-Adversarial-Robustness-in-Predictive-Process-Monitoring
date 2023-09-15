@@ -87,11 +87,11 @@ class LSTMModel:
         elif self.optimizer_name == 'Nadam':
             optimizer = torch.optim.NAdam(cls_adv.parameters(), lr=0.0001)
         print('training')
-        early_stop_patience = 11
+        #early_stop_patience = 10
         best_auc = 0.5
         lr_reducer = ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=3, verbose=False,
                                 threshold=0.0001, cooldown=0, min_lr=0)
-        epochs = 100
+        epochs = 12
         for epoch in range(epochs):
           print("Epoch: ", epoch)
           for i, (data_act, data_res) in enumerate(dataset, 0): # loop over the data, and jump with step = bptt.
@@ -115,17 +115,15 @@ class LSTMModel:
                 lr_reducer.step(validation_auc)
                 # Log evaluation metrics to WandB
                 print('validation_auc',validation_auc)
-
-                if validation_auc > best_auc:
-                      best_auc = validation_auc
-          if epoch > early_stop_patience and validation_auc <= best_auc:
-            print('best auc', best_auc)
-            print('validation_auc', validation_auc)
-            print("Early stopping triggered.")
-            break
+          #if epoch > early_stop_patience and validation_auc <= best_auc:
+            #    print('best auc', best_auc)
+            #    print('validation_auc', validation_auc)
+            #    print("Early stopping triggered.")
+            #    break
+          
+          if validation_auc > best_auc:
+                best_auc = validation_auc
         return cls_adv
-
-
 
 class CheckpointSaver:
     def __init__(self, dirpath, decreasing=True, top_n=5):

@@ -6,7 +6,7 @@ Created on Mon Feb 20 09:37:13 2023
 """
 
 ####################PACKAGES AND FUNCTIONS#######################
-import torchaudio
+#import torchaudio
 from train import Trainer
 from loss import VAE_Loss
 from operator import itemgetter
@@ -37,7 +37,6 @@ torch.autograd.set_detect_anomaly(True)
 # encodings dictionary
 encoding = ['agg']
 encoding_dict = {"agg": ["agg"]}
-os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 # datasets dictionary
 dataset_ref_to_datasets = {
     #"production": ["production"],

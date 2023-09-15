@@ -16,7 +16,7 @@ import torch.nn as nn
 import torch
 from torch.nn.utils.rnn import pad_sequence
 from torch.autograd import Variable
-from torchvision.utils import make_grid
+#from torchvision.utils import make_grid
 from sklearn.preprocessing import MinMaxScaler
 from itertools import chain
 from sklearn.metrics import roc_auc_score, accuracy_score, roc_curve, auc

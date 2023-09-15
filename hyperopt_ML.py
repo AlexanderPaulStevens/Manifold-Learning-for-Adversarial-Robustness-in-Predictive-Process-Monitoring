@@ -17,7 +17,6 @@ from sklearn.preprocessing import MinMaxScaler
 from util.DataCreation import DataCreation
 from util.Arguments import Args
 from settings import global_setting
-os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 # parameters
 seed = global_setting['seed']
 train_ratio = global_setting['train_ratio']

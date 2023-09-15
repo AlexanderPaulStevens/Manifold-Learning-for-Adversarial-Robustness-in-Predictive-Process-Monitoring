@@ -8,7 +8,7 @@ Created on Fri Feb 17 22:07:08 2023
 ####################PACKAGES AND FUNCTIONS#######################
 from loss import VAE_Loss
 from train import Trainer
-import torchaudio
+#import torchaudio
 import os
 import warnings
 import numpy as np
@@ -31,7 +31,7 @@ torch.autograd.set_detect_anomaly(True)
 ##################################################################
 
 #####################PARAMETERS###################################
-os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
+
 dataset_ref_to_datasets = {
     # "production": ["production"],
     "bpic2012": ["bpic2012_cancelled"]
@@ -74,7 +74,7 @@ for dataset_name in datasets:
         ###################################################################
 
         #######################METHODOLOGY#################################
-        datacreator = DataCreation(dataset_manager, dataset_name)
+        datacreator = DataCreation(dataset_manager, dataset_name, max_prefix_length)
         no_cols_list = []
         # split into training and test
         train, test = dataset_manager.split_data_strict(data, train_ratio, split="temporal")

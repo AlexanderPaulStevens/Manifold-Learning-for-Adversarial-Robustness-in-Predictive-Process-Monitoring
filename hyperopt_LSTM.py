@@ -23,7 +23,6 @@ from sklearn.metrics import roc_auc_score
 device = "cuda" if torch.cuda.is_available() else "cpu"
 # to explicitly raise an error with a stack trace to easier debug which operation might have created the invalid values
 torch.autograd.set_detect_anomaly(True)
-
 #hyperopt
 import hyperopt
 from hyperopt import hp, Trials, fmin, tpe, STATUS_OK

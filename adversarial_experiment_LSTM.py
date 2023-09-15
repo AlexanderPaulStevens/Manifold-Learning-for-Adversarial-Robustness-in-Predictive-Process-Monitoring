@@ -1,3 +1,4 @@
+#The onedrive file is the current version
 from attacks import AdversarialAttacks_LSTM
 import torch
 from manifold import AdversarialAttacks_manifold_LSTM, Manifold
@@ -12,11 +13,9 @@ import pandas as pd
 import warnings
 import os
 import random
-
 from util.DataCreation import DataCreation
-os.chdir('G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization')
 
-dataset_name = 'bpic2012_accepted'
+dataset_name = 'bpic2015_1_f2'
 cls_method = 'LSTM'
 
 """Experiments."""
@@ -53,7 +52,7 @@ def seed_worker(worker_id):
 g = torch.Generator()
 g.manual_seed(0)
 
-best_LSTM_path = 'G:\My Drive\CurrentWork\Manifold\AdversarialRobustnessGeneralization/best_LSTMs'
+best_LSTM_path = global_setting['best_LSTMs']
 results_dir = global_setting['results_dir'] + '/' + dataset_name+'/'+cls_method
 if not os.path.exists(os.path.join(results_dir)):
     os.makedirs(os.path.join(results_dir))
@@ -128,18 +127,8 @@ path_data_label = best_LSTM_path+'/' + dataset_name + '/'
 dir_list = os.listdir(path_data_label)
 if 'desktop.ini' in dir_list:
     dir_list.remove('desktop.ini')
-#LSTM_name = dir_list[0]
-#print(LSTM_name)
-#split = LSTM_name.split("_")
-#checkpoint = torch.load(path_data_label+'/'+LSTM_name, map_location=torch.device('cpu'))
-#learning_rate = float(split[1])
-#hidden_size = int(split[2])
-#dropout = float(split[3])
-#optimizer_name = split[4]
-#batch_size = int(split[5])
-#embed_size = training_setting['embed_size']
-learning_rate = 0.02140
 
+learning_rate = 0.02140
 embed_size = 16
 optimizer_name='Nadam'
 batch_size = 5

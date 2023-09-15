@@ -41,7 +41,7 @@ class Manifold:
         self.cols = cols
         self.vocab_size = vocab_size
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.payload_values = payload_values
+        self.payload_values = payload_values 
         self.feature_combiner = feature_combiner
         self.scaler = scaler
         self.no_cols_list = [self.vocab_size[0]-1, self.vocab_size[1]-1]
@@ -183,7 +183,6 @@ class Manifold:
         train_y_manifold = self.datacreator.get_label_numeric_adversarial(on_manifold_prefixes_train_total)
         return on_manifold_prefixes_train_total, train_y_manifold
     
-    
     def perform_attack(self, attack_type, attack_col, cls, attack_manifold, modelmaker, results_cls, results_test):
         print('attack', attack_type, attack_col)
         # Adversarial - Training Data
@@ -239,12 +238,12 @@ class Manifold:
         cls_adv = lstmmodel.make_LSTM_model(activity_train, resource_train, activity_val, resource_val, train_y, val_y)
         
         # Adversarial - Testing Data
-        adversarial_prefixes_test = self.attack.create_adversarial_dt_named_test(attack_type, attack_col, cls)
-        activity_test_adv, resource_test_adv, test_y_adv, _ = self.datacreator.groupby_pad(adversarial_prefixes_test, self.cols, self.activity_col, self.resource_col)
+        #adversarial_prefixes_test = self.attack.create_adversarial_dt_named_test(attack_type, attack_col, cls)
+        #activity_test_adv, resource_test_adv, test_y_adv, _ = self.datacreator.groupby_pad(adversarial_prefixes_test, self.cols, self.activity_col, self.resource_col)
         
         # Save Adversarial Results to Dictionary
         results_cls['adv_cls_' + attack_type + '_' + attack_col] = cls_adv
-        results_test['adv_test_' + attack_type + '_' + attack_col] = (activity_test_adv, resource_test_adv, test_y_adv)
+        #results_test['adv_test_' + attack_type + '_' + attack_col] = (activity_test_adv, resource_test_adv, test_y_adv)
         
         # On-Manifold - Training Data
         manifold_prefixes_train = attack_manifold.create_adversarial_dt_named_LSTM_train(attack_type, attack_col, cls)
