@@ -180,7 +180,7 @@ def create_and_evaluate_model(args):
             fout_all.write("%s;%s;%s;%s;%s\n" % (trial_nr, dataset_name, cls_method, method_name, 0))   
     
             fout_all.flush()
-            return {'loss': validation_loss, 
+        return {'loss': validation_loss, 
             'status': STATUS_OK, 
             'model': model, 
             'args': args}
