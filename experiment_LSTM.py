@@ -117,8 +117,8 @@ for dataset_name in datasets:
     
     # create the input layers and embeddings
     input_size = no_cols_list
-    batch_size = len(activity_train)
-    dataset = torch.utils.data.TensorDataset(activity_train, resource_train)
+    batch_size = len(activity_test)
+    dataset = torch.utils.data.TensorDataset(activity_test, resource_test)
     dataset = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
     dir_path = global_setting['params_dir_DL'] + '/hyper_models/'+dataset_name
@@ -140,18 +140,17 @@ for dataset_name in datasets:
         embed_size = training_setting['embed_size']
         model = Model(embed_size, hidden_size, vocab_size, max_prefix_length)
         model.load_state_dict(checkpoint)
-        for i, (data_act, data_res) in enumerate(dataset, 0):
-            model.eval()
-            pred = model(activity_test,resource_test).squeeze(-1).to('cpu').detach().numpy()
-            print(pred)
-            auc = roc_auc_score(test_y, pred)
-            print('here',auc)
-            if auc > best_auc:
-                print('auc',auc,'best_auc', best_auc)
-                best_auc = auc.copy()
-                best_model = model
-                best_LSTM_name = LSTM_name
-                print('best auc now is:', best_auc)
+        model.eval()
+        pred = model(activity_test,resource_test).squeeze(-1).to('cpu').detach().numpy()
+        print(pred)
+        auc = roc_auc_score(test_y, pred)
+        print('here',auc)
+        if auc > best_auc:
+            print('auc',auc,'best_auc', best_auc)
+            best_auc = auc.copy()
+            best_model = model
+            best_LSTM_name = LSTM_name
+            print('best auc now is:', best_auc)
     print('best model with name:', best_LSTM_name, 'and auc', best_auc)
     path_data_label = best_LSTMs+'/' + dataset_name+'/'
     if not os.path.exists(os.path.join(path_data_label)):
